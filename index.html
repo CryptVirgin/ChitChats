@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Office Crew Tea Party</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            overflow-x: hidden;
+        }
+        header {
+            background: #ff9e7d;
+            padding: 30px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            animation: slideIn 1s ease-out;
+        }
+        h1 {
+            font-size: 3.5em;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: pulse 3s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+        .colleague-card {
+            background: #fff;
+            border: 4px solid #ff6f61;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .colleague-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+        }
+        .colleague-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(transparent, rgba(255, 111, 97, 0.2));
+            z-index: -1;
+        }
+        .colleague-card h2 {
+            color: #ff4e53;
+            font-size: 1.9em;
+            margin-bottom: 15px;
+            text-decoration: underline wavy #ff9e7d;
+        }
+        .colleague-card p {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        .quote {
+            font-style: italic;
+            color: #555;
+            margin-top: 15px;
+            font-size: 1em;
+            background: #fff0e9;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .cartoon-img {
+            width: 160px;
+            height: 160px;
+            margin: 15px auto;
+            border-radius: 50%;
+            border: 4px solid #ff6f61;
+            background-color: #ffe6dc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            transition: transform 0.5s ease;
+            font-size: 1.5em;
+            color: #ff6f61;
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .colleague-card:hover .cartoon-img {
+            transform: rotate(360deg);
+        }
+        .cartoon-desc {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 25px;
+            background: #ff9e7d;
+            border-radius: 15px;
+            color: #fff;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.2);
+        }
+        .highlight {
+            background-color: #ffd700;
+            padding: 3px 6px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .chat-bubble {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #ff4e53;
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            cursor: pointer;
+            animation: bounce 2s infinite;
+            z-index: 100;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 101;
+        }
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+            animation: steamRise 1.5s ease-out;
+            overflow: hidden;
+        }
+        @keyframes steamRise {
+            0% { transform: translate(-50%, -30%) scale(0.8); opacity: 0.3; filter: blur(5px); }
+            50% { transform: translate(-50%, -55%) scale(1.1); opacity: 0.7; filter: blur(2px); }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; filter: blur(0); }
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 2em;
+            cursor: pointer;
+            color: #ff4e53;
+        }
+        .steam-effect {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            opacity: 0.2;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .steam-effect::before {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            bottom: 0;
+            left: 20%;
+            animation: steamFloat 3s infinite ease-in-out;
+        }
+        .steam-effect::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            bottom: 0;
+            left: 60%;
+            animation: steamFloat 4s infinite ease-in-out 1s;
+        }
+        @keyframes steamFloat {
+            0% { transform: translateY(0) translateX(0); opacity: 0.8; }
+            50% { transform: translateY(-100px) translateX(20px); opacity: 0.3; }
+            100% { transform: translateY(-200px) translateX(-10px); opacity: 0; }
+        }
+        .gossip-text {
+            font-size: 1.2em;
+            color: #333;
+            margin: 20px 0;
+            animation: fadeIn 0.8s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Office Crew Tea Party</h1>
+        <p>Step into the steamiest virtual office bash ever! Grab your digital mug and let’s spill the tea with sass!</p>
+    </header>
+    <div class="container">
+        <div class="colleague-card">
+            <h2>Sultan Shahabuddin</h2>
+            <div class="cartoon-img">🕵️‍♂️🎶</div>
+            <p>The Email Explorer & Swiftie Star! Sultan’s hunting files and channeling Taylor Swift vibes. <span class="highlight">'I was the problem... it’s me!'</span> - owning it like a boss! 🎤</p>
+            <p class="quote">'My ear still hurts... I’m on ibuprofen. 😖'</p>
+            <p class="cartoon-desc">Cartoon: Sultan as a detective with a magnifying glass, earphones blasting Taylor Swift, and a bandage on his ear! 🕵️‍♂️🎶</p>
+        </div>
+        <div class="colleague-card">
+            <h2>Ritu Hukku</h2>
+            <div class="cartoon-img">🦸‍♀️📍</div>
+            <p>The Office GPS & Swiftie Supporter! Ritu’s guiding lost souls to clarity. <span class="highlight">'Ok sorted myself out!'</span> - she’s got it under control! 🗺️</p>
+            <p class="quote">'I live with Swifties... that was the reference LOL! 😂'</p>
+            <p class="cartoon-desc">Cartoon: Ritu as a superhero with a GPS cape, holding a Swiftie fan club banner! 🦸‍♀️📍</p>
+        </div>
+        <div class="colleague-card">
+            <h2>Pavneet Singh Ajmani</h2>
+            <div class="cartoon-img">🤡💬</div>
+            <p>The Caption Confusion King! Pavneet’s got us cracking up with CC mix-ups. <span class="highlight">'I meant Closed Captions... Teams misheard as Sexual Notifications!'</span> - oopsie! 🙈</p>
+            <p class="quote">'Omg guys, so sorry... just a poor joke from my end. 😅'</p>
+            <p class="cartoon-desc">Cartoon: Pavneet as a jester with a speech bubble saying ‘Closed Captions’ crossed out for something spicier! 🤡💬</p>
+        </div>
+        <div class="colleague-card">
+            <h2>Roland Smets</h2>
+            <div class="cartoon-img">👀📱</div>
+            <p>The Shock Master! Roland’s reaction to ‘Sexual Notifications’ is pure gold. <span class="highlight">'What is this all about? Sexual Notifications? What?!'</span> - we’re shook! 😱</p>
+            <p class="quote">'😮‍💨'</p>
+            <p class="cartoon-desc">Cartoon: Roland with eyes popping out of his head, holding a phone with a scandalous notification! 👀📱</p>
+        </div>
+        <div class="colleague-card">
+            <h2>Diana Franco</h2>
+            <div class="cartoon-img">⚔️📊</div>
+            <p>The Slide Slayer! Diana’s battling PPT diagrams like a warrior. <span class="highlight">'Slides for Rachid... it’s a very long long long task!'</span> - send help! 🆘</p>
+            <p class="quote">'Why have we decided to create those diagrams in PPT? 🤔'</p>
+            <p class="cartoon-desc">Cartoon: Diana as a knight fighting a giant PowerPoint slide with arrows and charts everywhere! ⚔️📊</p>
+        </div>
+        <div class="colleague-card">
+            <h2>Jonathan Navas</h2>
+            <div class="cartoon-img">🐱❓</div>
+            <p>The Curious Cat! Jonathan’s just trying to keep up with the chaos. <span class="highlight">'What is this??'</span> - same, buddy, same! 😕</p>
+            <p class="quote">Keeping the questions coming! ❓</p>
+            <p class="cartoon-desc">Cartoon: Jonathan as a puzzled cat with question marks floating around his head! 🐱❓</p>
+        </div>
+        <div class="colleague-card">
+            <h2>Mehrdad Bibak</h2>
+            <div class="cartoon-img">🥷💭</div>
+            <p>The Silent Ninja! Mehrdad seldom talks, but when he does, it’s probably to drop a wisdom bomb... or he’s just napping in stealth mode! <span class="highlight">'...'</span> - shh, he’s plotting! 🥷</p>
+            <p class="quote">'*Crickets chirping*... Did Mehrdad just think out loud?' 😄</p>
+            <p class="cartoon-desc">Cartoon: Mehrdad as a ninja hiding behind a desk, with a thought bubble full of mysterious plans! 🥷💭</p>
+        </div>
+    </div>
+    <footer>
+        <p>Thanks for crashing the Office Crew Tea Party! Keep the laughs rolling and the tea piping hot. Crafted with sass, humor, and a dash of tech magic! ☕🔥</p>
+    </footer>
+    <div class="chat-bubble" onclick="openModal()">Spill More Tea! ☕</div>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2>Hot Office Gossip! 🔥</h2>
+            <p id="gossip-text" class="gossip-text"></p>
+            <div class="steam-effect"></div>
+        </div>
+    </div>
+    <script>
+        const gossipList = [
+            "Did you hear? Sultan’s charging a ‘Special Tax’ for airspace usage! Talk about sky-high drama! 🛫💸",
+            "Diana’s stuck in PPT purgatory with slides for days! Someone send a rescue squad! 📊🆘",
+            "Pavneet’s ‘Closed Captions’ turned into ‘Sexual Notifications’ on Teams! Tech betrayal at its finest! 😂🙈",
+            "Roland’s mind was blown by the notification mix-up! ‘What?!’ indeed, buddy! 😱🤯",
+            "Sultan’s playing detective with lost files, asking Diana, ‘Did you email or is it on SharePoint?’ The mystery deepens! 🕵️‍♂️📁",
+            "Diana’s dropping truth bombs: ‘All postpaid orders need proof of address approval!’ Sultan’s shook—new info alert! 📜😲",
+            "Ritu’s uncovering critical defects in notifications during stand-up! Emergency fixes incoming! 🚨🔧",
+            "Jonathan’s piecing together the scope puzzle: ‘From CC, we just retrieve documents, no creation!’ Clarity for the win! 🧩👍",
+            "Sultan’s throwing red flags: ‘Don’t ask POs about scope, it won’t sound good!’ Stealth mode engaged! 🚩🤫",
+            "Mehrdad’s silence is deafening! Rumor has it he’s secretly planning a mute takeover of the chat. Watch out! 🥷🤐"
+        ];
+        let currentGossipIndex = 0;
+
+        function openModal() {
+            document.getElementById('modal').style.display = 'block';
+            showNextGossip();
+        }
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+        function showNextGossip() {
+            const gossipTextElement = document.getElementById('gossip-text');
+            gossipTextElement.innerHTML = gossipList[currentGossipIndex];
+            currentGossipIndex = (currentGossipIndex + 1) % gossipList.length;
+        }
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('modal')) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
